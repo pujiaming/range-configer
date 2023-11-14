@@ -87,14 +87,14 @@ Reminder Information: The ranges of the interval here will `not overlap`, and wh
 | Attribute |  Description | Type | Default |
 | --- | --- | --- | --- |
 | configArr | binding value |  Array | [{ from : 0, to: 5 } ] |
-| step | incremental step and mutatioin step | number | 1 |
+| step | incremental step and mutatioin step | Number | 1 |
 | label | label text | String | Range |
 | purpose | Whether to use slots for specific purposes | Boolean | false |
 | aimAttri | specific purposes object. It only takes effect when `purpose` is true | Object | { aimrow: 0 } |
 | readonly | same as readonly in native input, but pay attention to the form elements in "templete v-slot:purpose", you can add readonly attribute manually | Boolean | false |
-| minNum | minimum number of intervals | number | 1 |
-| addStep | The range size of the newly added item | number | 1000 |
-| infinite | Can it end with 0 and represent infinity | boolean | true |
+| minNum | minimum number of intervals | Number | 1 |
+| addStep | The range size of the newly added item | Number | 1000 |
+| infinite | Can it end with 0 and represent infinity | Boolean | true |
 | from | Custom fields represent the starting point of the range | String | from |
 | to | Custom fields represent the endpoint of the range | String | to |
 | numLabel | range amount label | String | range amount |      
