@@ -52,5 +52,9 @@
     "recharge activity",
     "js"
   ],
-  "author": "yolosweet679@qq.com"
+  "author": "yolosweet679@qq.com",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pujiaming/range-configer.git"
+  }
 }
