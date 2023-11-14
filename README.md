@@ -70,6 +70,7 @@ data(){
 }
 ```
 after I set the values of `discount` and `gift`:
+
 ![image](https://github.com/pujiaming/range-configer/assets/109517537/0acc0038-a411-44b0-ae98-07b6b2446ca7)
 
 and its corresponding results:
