@@ -83,6 +83,9 @@ Of course, you can modify the field name through different attributes in the fol
 
 Reminder Information: The ranges of the interval here will `not overlap`, and when any one range is modified, the values of other ranges will also change, with the manually modified range having the `highest priority`.   
 
+and here you can add a attribute `slideble` to change the range by slide
+![image](https://github.com/pujiaming/range-configer/assets/109517537/9a339241-64e7-426f-8113-750eafe9bb0d)
+
 ## Attributes
 | Attribute |  Description | Type | Default |
 | --- | --- | --- | --- |
@@ -98,3 +101,4 @@ Reminder Information: The ranges of the interval here will `not overlap`, and wh
 | from | Custom fields represent the starting point of the range | String | from |
 | to | Custom fields represent the endpoint of the range | String | to |
 | numLabel | range amount label | String | range amount |      
+| slidable | change the value by sliding | Boolean | false |
