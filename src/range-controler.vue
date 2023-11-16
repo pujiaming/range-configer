@@ -248,7 +248,6 @@ export default {
     mutationRange() {
       // this.intervalArr.sort((a, b)=>a.rangeValue - b.rangeValue)
       const keys = Object.keys(this.aimAttri)
-      console.log(keys);
       this.toastVisible = false
       const copy = this.interval.map((item, index) => {
         let obj
@@ -266,7 +265,6 @@ export default {
         keys.forEach(key =>{
           obj[key] = item[key]
         })
-       console.log(obj);
         return obj
       })
       this.$emit('update:configArr', copy)
@@ -275,7 +273,6 @@ export default {
       const newVal = Number(event.target.value)
       this.toastVisible = true
       this.toast = event.target.value
-      console.log(newVal);
       const prevVal = this.interval[index][this.from] // 获取变化前的值
       const isHave = this.intervalArr.findIndex((item) => item.rangeValue === newVal) >= 0
       if (isHave) {

@@ -1,6 +1,6 @@
 {
   "name": "range-controler",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "manage your different ranges",
   "main": "dist/range-controler.ssr.js",
   "browser": "dist/range-controler.esm.js",
