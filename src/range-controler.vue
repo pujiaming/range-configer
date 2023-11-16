@@ -15,8 +15,8 @@
       <div class="toast" v-if="toastVisible">{{ toast }}</div>
       <div class="line" v-if="slidable && !infinite">
         <template v-for="(item,index) in intervalArr">
-          <input v-if="index === 0" :key="index" disabled :value="item.rangeValue" :min="min" :max="max" :step="step" type="range" class="range" list="tickmarks">
-          <input v-else-if="index === (intervalArr.length -1)" :key="index" disabled :value="item.rangeValue" :min="min" :max="max" :step="step" type="range" class="track-hidden">
+          <input v-if="index === 0" :key="0" disabled :value="item.rangeValue" :min="min" :max="max" :step="step" type="range" class="range" list="tickmarks">
+          <input v-else-if="index === (intervalArr.length -1)" :key="intervalArr.length -1" disabled :value="item.rangeValue" :min="min" :max="max" :step="step" type="range" class="track-hidden">
           <input
             v-else
             :key="index"
