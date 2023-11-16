@@ -9,7 +9,11 @@ export default Vue.extend({
   },
   data(){
     return{
-      arr: [],
+      arr: [
+        {from:0, to:1200},
+        {from:1201, to:2200},
+        {from:2201, to:3200},
+      ],
       aimAttri: {
         discount: 0,
         desc: ''
@@ -23,16 +27,17 @@ export default Vue.extend({
   <div id="app">
     <range-controler 
       :configArr.sync="arr" 
-      label="充值点券范围区间" 
+      label="Recharge amount" 
       :purpose="true" 
       :step="1" 
       :aimAttri="aimAttri"
       :add-step="1000"
-      :infinite="false" 
+      :infinite="false"
+      :slidable="true"
     >
       <template v-slot:purpose="scope">
-        <label for="discount">Gift amount ratio</label><input type="number" name="discount" v-model="arr[scope.row.index].discount" :min="1" :max="100" label="描述文字">%
-        <label for="desc">赠送物品</label><input name="desc" v-model="arr[scope.row.index].desc" type="text">
+        <label for="discount">Gift amount ratio</label><input type="number" name="discount" v-model="arr[scope.row.index].discount" :min="1" :max="100">%
+        <label for="desc">desc</label><input name="desc" v-model="arr[scope.row.index].desc" type="text">
       </template>
     </range-controler>
   </div>

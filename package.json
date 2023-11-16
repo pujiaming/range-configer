@@ -1,6 +1,6 @@
 {
   "name": "range-controler",
-  "version": "0.0.2",
+  "version": "1.0.3",
   "description": "manage your different ranges",
   "main": "dist/range-controler.ssr.js",
   "browser": "dist/range-controler.esm.js",
@@ -50,7 +50,8 @@
     "range",
     "input-range",
     "recharge activity",
-    "js"
+    "js",
+    "vue2"
   ],
   "author": "yolosweet679@qq.com",
   "repository": {

@@ -10,9 +10,10 @@
       </div>
     </section>
     <div class="line-wrap">
-      <!-- <div class="max">{{ max }}</div>
-      <div class="min">{{ min }}</div>
-      <div class="line">
+      <div class="max" v-if="slidable && !infinite">{{ max }}</div>
+      <div class="min" v-if="slidable && !infinite">{{ min }}</div>
+      <div class="toast" v-if="toastVisible">{{ toast }}</div>
+      <div class="line" v-if="slidable && !infinite">
         <template v-for="(item,index) in intervalArr">
           <input v-if="index === 0" :key="index" disabled :value="item.rangeValue" :min="min" :max="max" :step="step" type="range" class="range" list="tickmarks">
           <input v-else-if="index === (intervalArr.length -1)" :key="index" disabled :value="item.rangeValue" :min="min" :max="max" :step="step" type="range" class="track-hidden">
@@ -31,8 +32,8 @@
             @change="mutationRange(item,index)"
           >
         </template>
-      </div> -->
-      <section class="range-input-wrapper">
+      </div>
+      <section class="range-input-wrapper" :style="slidable && !infinite?'margin-top:40px;':''">
         <div v-for="(item,index) in interval" :key="index" class="range-input-block">
           <section class="flex">
             <label for="range" style="white-space: nowrap;">{{ label }}：</label>
@@ -110,10 +111,16 @@ export default {
     numLabel:{
       type:String,
       default: 'range amount'
+    },
+    slidable:{
+      type: Boolean, 
+      default: false
     }
   },
   data() {
     return {
+      toast: '',
+      toastVisible: false
       // default: [
       //   {
       //     from: 0,
@@ -209,11 +216,15 @@ export default {
           copy.push(obj)
           copy = this.checkQueue(copy, copy.length - 1, this.step)
         } else if (val < oldVal) {
-          copy.splice(copy.length - 2, 2, {
+          const keys = Object.keys(this.aimAttri)
+          let obj = {
             [this.from]: copy[copy.length - 2][this.from],
-            [this.to]: copy[copy.length - 1][this.to],
-            ...this.aimAttri
+            [this.to]: copy[copy.length - 1][this.to]
+          }
+          keys.forEach(key=>{
+            obj[key] = this.interval[copy.length - 2][key]
           })
+          copy.splice(copy.length - 2, 2, obj)
         }
         this.$emit('update:configArr', copy)
       }
@@ -234,37 +245,47 @@ export default {
   mounted() {
   },
   methods: {
-    // mutationRange() {
-    //   // this.intervalArr.sort((a, b)=>a.rangeValue - b.rangeValue)
-    //   const copy = this.interval.map((item, index) => {
-    //     if (index !== this.interval.length - 1) {
-    //       return {
-    //         [this.from]: this.intervalArr[index].rangeValue,
-    //         [this.to]: this.intervalArr[index + 1].rangeValue - this.step,
-    //         [this.aimAttri]: item[this.aimAttri]
-    //       }
-    //     } else {
-    //       return {
-    //         [this.from]: this.intervalArr[index].rangeValue,
-    //         [this.to]: this.intervalArr[index + 1].rangeValue,
-    //         [this.aimAttri]: item[this.aimAttri]
-    //       }
-    //     }
-    //   })
-    //   this.$emit('update:configArr', copy)
-    // },
-    // handleInput(index, event) {
-    //   const newVal = Number(event.target.value)
-    //   const prevVal = this.interval[index].from // 获取变化前的值
-    //   const isHave = this.intervalArr.findIndex((item) => item.rangeValue === newVal) >= 0
-    //   if (isHave) {
-    //     // 如果新的值与rangeValue相等，重置为变化前的值
-    //     this.$set(this.intervalArr[index], 'rangeValue', prevVal)
-    //   } else {
-    //     // 否则更新rangeValue
-    //     this.$set(this.intervalArr[index], 'rangeValue', newVal)
-    //   }
-    // },
+    mutationRange() {
+      // this.intervalArr.sort((a, b)=>a.rangeValue - b.rangeValue)
+      const keys = Object.keys(this.aimAttri)
+      console.log(keys);
+      this.toastVisible = false
+      const copy = this.interval.map((item, index) => {
+        let obj
+        if (index !== this.interval.length - 1) {
+          obj =  {
+            [this.from]: this.intervalArr[index].rangeValue,
+            [this.to]: this.intervalArr[index + 1].rangeValue - this.step,
+          }
+        } else {
+          obj =  {
+            [this.from]: this.intervalArr[index].rangeValue,
+            [this.to]: this.intervalArr[index + 1].rangeValue,
+          }
+        }
+        keys.forEach(key =>{
+          obj[key] = item[key]
+        })
+       console.log(obj);
+        return obj
+      })
+      this.$emit('update:configArr', copy)
+    },
+    handleInput(index, event) {
+      const newVal = Number(event.target.value)
+      this.toastVisible = true
+      this.toast = event.target.value
+      console.log(newVal);
+      const prevVal = this.interval[index][this.from] // 获取变化前的值
+      const isHave = this.intervalArr.findIndex((item) => item.rangeValue === newVal) >= 0
+      if (isHave) {
+        // 如果新的值与rangeValue相等，重置为变化前的值
+        this.$set(this.intervalArr[index], 'rangeValue', prevVal)
+      } else {
+        // 否则更新rangeValue
+        this.$set(this.intervalArr[index], 'rangeValue', newVal)
+      }
+    },
     handleRangeInputTo(index, event, arr) {
       const copy = JSON.parse(JSON.stringify(arr))
       const newVal = Number(event.target.value)
@@ -453,6 +474,7 @@ export default {
       background-color: transparent;
       pointer-events: none;
       outline: none;
+      height: 8px;
   }
   [type="range"]::-webkit-slider-thumb {
       pointer-events: auto;
@@ -468,7 +490,7 @@ export default {
     background: none;
   }
   input[type="range"]::-moz-range-track{
-    background: none;
+    /* background: none; */
   }
   input[type="range"]::-ms-track{
     border-color: transparent;
@@ -492,7 +514,6 @@ export default {
     appearance: none;
   }
   .range-input-wrapper{
-    margin-top: 40px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -581,6 +602,20 @@ export default {
   /* Firefox */
   .no-arrow[type=number] {
     -moz-appearance: textfield;
+  }
+  .toast{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 50px;
+    border-radius: 20px;
+    background-color: rgba(000, 000, 000, 0.78);
+    z-index: 10;
+    color: #fff;
+    text-align: center;
+    line-height: 50px;
   }
 
   </style>
